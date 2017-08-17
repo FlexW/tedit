@@ -2,10 +2,10 @@
 #include "include/log.h"
 
 void init_logging() {
-    //remove ("~/.tedit.log");
-    remove ("tedit.log");
-    //FILE* file = fopen("~/.tedit.log", "a");
-    FILE* file = fopen("tedit.log", "a");
+    remove ("~/.tedit.log");
+    //remove ("tedit.log");
+    FILE* file = fopen("~/.tedit.log", "a");
+    //FILE* file = fopen("tedit.log", "a");
     Output2FILE::Stream() = file;
     FILE_LOG(logINFO) << "Logger initialized";
 }
