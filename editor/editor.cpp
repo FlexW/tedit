@@ -1,6 +1,7 @@
 #include <string>
 
 #include "include/editor.h"
+#include "include/view.h"
 
 editor::editor() {
         container = new buffer_container(this, &win);

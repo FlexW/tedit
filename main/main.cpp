@@ -1,5 +1,5 @@
-#include "include/editor.h"
-#include "include/log.h"
+#include "editor/include/editor.h"
+#include "editor/include/log.h"
 
 void init_logging() {
     remove ("~/.tedit.log");

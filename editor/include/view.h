@@ -54,5 +54,9 @@ public:
          * Clears till end of line.
          */
         void clreol(int row, int col);
+    /**
+     * Creates a new window.
+     */
+    WINDOW * create_win(int rows, int cols, int parentx, int parenty);
 };
 #endif
