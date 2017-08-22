@@ -23,13 +23,6 @@ public:
     void add_event_listner(event_type &e, handler h);
 
     /**
-     * Fires a event. Calls all registered event handler.
-     * @param e    Event type.
-     * @param data Data that may gets send with the event.
-     */
-    void dispatch_event(event_type &e, void *data);
-
-    /**
      * Removes the registered event handler.
      * @param e       Event type.
      * @param handler Function that should be removed.
@@ -49,6 +42,14 @@ public:
      * @returns Number of listener.
      */
     int num_listener(event_type &e);
+
+protected:
+    /**
+     * Fires a event. Calls all registered event handler.
+     * @param e    Event type.
+     * @param data Data that may gets send with the event.
+     */
+    void dispatch_event(event_type &e, void *data);
 
 private:
     map<event_type, list<handler>*> event_map;

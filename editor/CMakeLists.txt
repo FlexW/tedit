@@ -1,5 +1,7 @@
 find_package(Curses REQUIRED)
 
+add_subdirectory(unit-tests)
+
 file(GLOB SOURCES *.cpp)
 set(libeditor_SRCS
   ${SOURCES}

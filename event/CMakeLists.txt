@@ -18,3 +18,5 @@ if(CMAKE_THREAD_LIBS_INIT)
 endif()
 
 include_directories(${tedit_SOURCE_DIR})
+
+add_subdirectory(unit-tests)

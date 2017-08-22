@@ -1,4 +1,25 @@
-#include <thread>
+#include "event/include/event.h"
+#include "gtest/gtest.h"
+
+class EventTest : public ::testing::Test {
+public:
+    EventTest() {
+        e = new event();
+    }
+
+    ~EventTest() {
+        delete e;
+    }
+private:
+    void taddlistner(event_type &e, void *d) {}
+    event *e;
+};
+
+TEST_F(EventTest, AddNewEventListner) {
+    e->add_event_listner()
+}
+
+/*#include <thread>
 #include <chrono>
 
 #include "event_test.h"
@@ -50,3 +71,4 @@ void event_test::test_dispatch_event() {
     CPPUNIT_ASSERT(true == was_event);
     tear_down();
 }
+*/
