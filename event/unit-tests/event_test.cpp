@@ -17,10 +17,16 @@ void listner(event_type &e, void *d) {
     listner_called = true;
 }
 
+bool listner2_called = false;
+void listner2(event_type &e, void *d) {
+    listner2_called = true;
+}
+
 class EventTest : public ::testing::Test {
 public:
     EventTest() {
         listner_called = false;
+        listner2_called = false;
         e = new event_producer();
     }
 
@@ -51,4 +57,16 @@ TEST_F(EventTest, DispatchEvent) {
     e->fire_event(e->EVENT1);
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
     EXPECT_TRUE(listner_called);
+}
+
+TEST_F(EventTest, DispatchOneEventTwoListner) {
+    e->add_event_listner(e->EVENT1, &listner);
+    e->add_event_listner(e->EVENT1, &listner2);
+    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
+    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner2));
+
+    e->fire_event(e->EVENT1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    EXPECT_TRUE(listner_called);
+    EXPECT_TRUE(listner2_called);
 }
