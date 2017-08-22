@@ -6,7 +6,9 @@
 
 class event_producer : public event {
 public:
-     const event_type EVENT1 = "event1";
+    const event_type EVENT1 = "event1";
+    const event_type EVENT2 = "event2";
+
     void fire_event(event_type &e) {
         dispatch_event(e, nullptr);
     }
@@ -66,6 +68,19 @@ TEST_F(EventTest, DispatchOneEventTwoListner) {
     EXPECT_TRUE(e->is_registered(e->EVENT1, &listner2));
 
     e->fire_event(e->EVENT1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    EXPECT_TRUE(listner_called);
+    EXPECT_TRUE(listner2_called);
+}
+
+TEST_F(EventTest, DispatchTwoEvents) {
+    e->add_event_listner(e->EVENT1, &listner);
+    e->add_event_listner(e->EVENT2, &listner2);
+    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
+    EXPECT_TRUE(e->is_registered(e->EVENT2, &listner2));
+
+    e->fire_event(e->EVENT1);
+    e->fire_event(e->EVENT2);
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
     EXPECT_TRUE(listner_called);
     EXPECT_TRUE(listner2_called);
