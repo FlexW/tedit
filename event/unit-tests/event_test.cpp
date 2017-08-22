@@ -1,74 +1,54 @@
+#include <thread>
+#include <chrono>
+
 #include "event/include/event.h"
 #include "gtest/gtest.h"
+
+class event_producer : public event {
+public:
+     const event_type EVENT1 = "event1";
+    void fire_event(event_type &e) {
+        dispatch_event(e, nullptr);
+    }
+};
+
+bool listner_called = false;
+void listner(event_type &e, void *d) {
+    listner_called = true;
+}
 
 class EventTest : public ::testing::Test {
 public:
     EventTest() {
-        e = new event();
+        listner_called = false;
+        e = new event_producer();
     }
 
     ~EventTest() {
         delete e;
     }
-private:
-    void taddlistner(event_type &e, void *d) {}
-    event *e;
+
+    event_producer *e;
 };
 
 TEST_F(EventTest, AddNewEventListner) {
-    e->add_event_listner()
+    e->add_event_listner(e->EVENT1, &listner);
+    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
 }
 
-/*#include <thread>
-#include <chrono>
+TEST_F(EventTest, RemoveAvailableEventListner) {
+    e->add_event_listner(e->EVENT1, &listner);
+    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
 
-#include "event_test.h"
-
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION(event_test);
-
-event_type event1 = "event1";
-bool was_event = false;
-
-void event_test::set_up()
-{
-    e = new event();
-    was_event = false;
+    e->remove_event_listner(e->EVENT1, &listner);
+    EXPECT_FALSE(e->is_registered(e->EVENT1, &listner));
 }
 
+TEST_F(EventTest, DispatchEvent) {
+    e->add_event_listner(e->EVENT1, &listner);
+    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
 
-void event_test::tear_down()
-{
-    delete e;
-    was_event = false;
+    e->fire_event(e->EVENT1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    EXPECT_TRUE(listner_called);
 }
-
-void taddlistner(event_type &e, void *d) {
-    was_event = true;
-}
-
-void event_test::test_add_event_listner_new()
-{
-    set_up();
-    e->add_event_listner(event1, &taddlistner);
-    CPPUNIT_ASSERT(true == e->is_registered(event1, &taddlistner));
-    tear_down();
-}
-
-void event_test::test_remove_event_listner_available() {
-    set_up();
-    e->add_event_listner(event1, &taddlistner);
-    e->remove_event_listner(event1, &taddlistner);
-    CPPUNIT_ASSERT(false == e->is_registered(event1, &taddlistner));
-    tear_down();
-}
-
-void event_test::test_dispatch_event() {
-    set_up();
-    e->add_event_listner(event1, &taddlistner);
-    e->dispatch_event(event1, nullptr);
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-    CPPUNIT_ASSERT(true == was_event);
-    tear_down();
-}
-*/
