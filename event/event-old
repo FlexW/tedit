@@ -9,7 +9,7 @@ event::~event() {
         delete l;
     }
 }
-
+/*
 void event::add_event_listner(event_type &e, handler h) {
     auto iter = event_map.find(e);
     if (iter == event_map.end()) {
@@ -21,7 +21,8 @@ void event::add_event_listner(event_type &e, handler h) {
     iter->second->push_back(h);
 }
 
-void event::dispatch_event(event_type &e, void *data) {
+template <typename T>
+void event::dispatch_event(event_type &e, T data) {
     auto iter = event_map.find(e);
     if (iter != event_map.end()) {
         for (auto f : *iter->second) {
@@ -38,7 +39,7 @@ void event::remove_event_listner(event_type &e, handler h) {
         event_map.erase(iter);
     }
 }
-
+*/
 bool event::is_registered(event_type &e, handler h){
     auto iter = event_map.find(e);
     if (iter != event_map.end()) {

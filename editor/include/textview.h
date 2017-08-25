@@ -4,10 +4,20 @@
 #include <string>
 #include <vector>
 
-class textview {
+#include "event/include/event.h"
+
+/**
+ * A text view is a view that can display text and it is possible to
+ * scroll trough the text. The text is not editable.
+ */
+class text_view {
 public:
-    textview() {}
-    ~textview() {}
+    text_view() {}
+    ~text_view() {}
+
+    class view_changed : public event<int> {
+    };
+
 protected:
     struct row {
         std::string *text = nullptr; /**< Real text */
