@@ -4,84 +4,127 @@
 #include "event/include/event.h"
 #include "gtest/gtest.h"
 
-class event_producer : public event {
+class event_holder {
 public:
-    const event_type EVENT1 = "event1";
-    const event_type EVENT2 = "event2";
+    class action_event : public event<int> {
+    public:
+        void fire_event() {
+            dispatch(1);
+        }
+    };
 
-    void fire_event(event_type &e) {
-        dispatch_event(e, nullptr);
-    }
+    action_event action;
 };
 
-bool listner_called = false;
-void listner(event_type &e, void *d) {
-    listner_called = true;
+bool listener_called = false;
+void listener(int i) {
+    listener_called = true;
 }
 
-bool listner2_called = false;
-void listner2(event_type &e, void *d) {
-    listner2_called = true;
+bool listener2_called = false;
+void listener2(int i) {
+    listener2_called = true;
 }
 
 class EventTest : public ::testing::Test {
 public:
-    EventTest() {
-        listner_called = false;
-        listner2_called = false;
-        e = new event_producer();
+    EventTest() : mlistener_called(false), mlistener2_called(false) {
+        listener_called = false;
+        listener2_called = false;
+        this->e = new event_holder();
     }
 
     ~EventTest() {
         delete e;
     }
 
-    event_producer *e;
+    void mlistener(int i) {
+        mlistener_called = true;
+    }
+    void mlistener2(int i) {
+        mlistener2_called = true;
+    }
+
+    event_holder *e;
+    bool mlistener_called = false;
+    bool mlistener2_called = false;
 };
 
-TEST_F(EventTest, AddNewEventListner) {
-    e->add_event_listner(e->EVENT1, &listner);
-    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
+TEST_F(EventTest, AddNewFreeFuncListner) {
+    e->action.add_listener<listener>();
+    EXPECT_TRUE(e->action.is_registered<listener>());
 }
 
-TEST_F(EventTest, RemoveAvailableEventListner) {
-    e->add_event_listner(e->EVENT1, &listner);
-    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
-
-    e->remove_event_listner(e->EVENT1, &listner);
-    EXPECT_FALSE(e->is_registered(e->EVENT1, &listner));
+TEST_F(EventTest, AddNewMemFuncListner) {
+    e->action.add_listener<EventTest, &EventTest::mlistener>(this);
+    bool b = e->action.is_registered<EventTest, &EventTest::mlistener>(this);
+    EXPECT_TRUE(b);
 }
 
-TEST_F(EventTest, DispatchEvent) {
-    e->add_event_listner(e->EVENT1, &listner);
-    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
+TEST_F(EventTest, RemoveFreeFuncListener) {
+    e->action.add_listener<listener>();
+    bool b = e->action.is_registered<listener>();
+    EXPECT_TRUE(b);
 
-    e->fire_event(e->EVENT1);
+    e->action.remove_listener<listener>();
+    b = e->action.is_registered<listener>();
+    EXPECT_FALSE(b);
+}
+
+
+TEST_F(EventTest, RemoveMemFuncListener) {
+    e->action.add_listener<EventTest, &EventTest::mlistener>(this);
+    bool b = e->action.is_registered<EventTest, &EventTest::mlistener>(this);
+    EXPECT_TRUE(b);
+
+    e->action.remove_listener<EventTest, &EventTest::mlistener>(this);
+    b = e->action.is_registered<EventTest, &EventTest::mlistener>(this);
+    EXPECT_FALSE(b);
+}
+
+TEST_F(EventTest, DispatchFreeFunc) {
+    e->action.add_listener<listener>();
+    EXPECT_TRUE(e->action.is_registered<listener>());
+
+    e->action.fire_event();
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    EXPECT_TRUE(listner_called);
+    EXPECT_TRUE(listener_called);
 }
 
-TEST_F(EventTest, DispatchOneEventTwoListner) {
-    e->add_event_listner(e->EVENT1, &listner);
-    e->add_event_listner(e->EVENT1, &listner2);
-    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
-    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner2));
+TEST_F(EventTest, DispatchMemFunc) {
+    e->action.add_listener<EventTest, &EventTest::mlistener>(this);
+    bool b = e->action.is_registered<EventTest, &EventTest::mlistener>(this);
+    EXPECT_TRUE(b);
 
-    e->fire_event(e->EVENT1);
+    e->action.fire_event();
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    EXPECT_TRUE(listner_called);
-    EXPECT_TRUE(listner2_called);
+    EXPECT_TRUE(mlistener_called);
 }
 
-TEST_F(EventTest, DispatchTwoEvents) {
-    e->add_event_listner(e->EVENT1, &listner);
-    e->add_event_listner(e->EVENT2, &listner2);
-    EXPECT_TRUE(e->is_registered(e->EVENT1, &listner));
-    EXPECT_TRUE(e->is_registered(e->EVENT2, &listner2));
 
-    e->fire_event(e->EVENT1);
-    e->fire_event(e->EVENT2);
+TEST_F(EventTest, DispatchTwoListnerFreeFunc) {
+    e->action.add_listener<listener>();
+    e->action.add_listener<listener2>();
+    EXPECT_TRUE(e->action.is_registered<listener>());
+    EXPECT_TRUE(e->action.is_registered<listener2>());
+
+    e->action.fire_event();
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    EXPECT_TRUE(listner_called);
-    EXPECT_TRUE(listner2_called);
+    EXPECT_TRUE(listener_called);
+    EXPECT_TRUE(listener2_called);
+}
+
+TEST_F(EventTest, DispatchTwoListnerMemFunc) {
+    e->action.add_listener<EventTest, &EventTest::mlistener>(this);
+    e->action.add_listener<EventTest, &EventTest::mlistener2>(this);
+
+    bool b = e->action.is_registered<EventTest, &EventTest::mlistener>(this);
+    EXPECT_TRUE(b);
+    b = e->action.is_registered<EventTest, &EventTest::mlistener2>(this);
+    EXPECT_TRUE(b);
+
+    e->action.fire_event();
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    EXPECT_TRUE(mlistener_called);
+    EXPECT_TRUE(mlistener2_called);
 }
