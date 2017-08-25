@@ -7,6 +7,7 @@
 
 class ncurses_keyboard : public keyboard {
 private:
+    /** Gets a char from stdin. Dispatches a event for that.*/
     void get_key() {
         int key = getch();
         click_event.dispatch_click_event(key);
