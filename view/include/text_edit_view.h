@@ -1,13 +1,13 @@
-#ifndef TEXTBUFFER_H_
-#define TEXTBUFFER_H_
+#ifndef TEXT_EDIT_VIEW_H_
+#define TEXT_EDIT_VIEW_H_
 
-#include "textview.h"
+#include "text_view.h"
 
 /**
  * Displays text.
  * Text in a text buffer is editable. It is possible to save changes.
  */
-class text_buffer : public text_view {
+class text_edit_view : public text_view {
 public:
 protected:
     int ty = 0; /**< Y cursor position in real text file.*/

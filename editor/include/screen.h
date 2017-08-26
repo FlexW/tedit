@@ -35,7 +35,7 @@ public:
     /**
      * Creates a new window.
      */
-    std::shared_ptr<window> new_window();
+    std::shared_ptr<window> new_window(int height, int width, int starty, int startx);
 
     /**
      * Draws the given area new.
