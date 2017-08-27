@@ -54,3 +54,15 @@ void text_view::add_char_print_buffer(int x, int y, char c) {
     int pos = y * width + x;
     *(print_buffer + pos) = c;
 }
+
+int text_view::get_print_buffer_size() {
+    int ph = height - padding_top - padding_bot;
+    int pw = width - padding_left - padding_right;
+
+    return (ph * pw);
+}
+
+char text_view::get_char_print_buffer(int x, int y) {
+    int pos = y * width + x;
+    return *(print_buffer + pos);
+}

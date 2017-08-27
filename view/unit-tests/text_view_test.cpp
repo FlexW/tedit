@@ -45,3 +45,25 @@ TEST_F(TextViewTest, SetPaddingIllegal) {
     ASSERT_EQ(0, v->get_padding_left());
     ASSERT_EQ(0, v->get_padding_right());
 }
+
+TEST_F(TextViewTest, SetPrintBufferSize) {
+    int size = 10;
+
+    v->set_height(size);
+    v->set_width(size);
+
+    ASSERT_EQ((size * size), v->get_print_buffer_size());
+}
+
+TEST_F(TextViewTest, GetPrintBufferChar) {
+    char c = 'c';
+    int size = 10;
+    int x = 5;
+    int y = 0;
+
+    v->set_height(size);
+    v->set_width(size);
+
+    v->add_char_print_buffer(x, y, c);
+    ASSERT_EQ(c, v->get_char_print_buffer(x, y));
+}

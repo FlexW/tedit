@@ -71,6 +71,24 @@ public:
         return padding_right;
     }
 
+    /**
+     * Returns the size of the print buffer.
+     */
+    int get_print_buffer_size();
+
+    /**
+     * Gets the char at position from print buffer.
+     */
+    char get_char_print_buffer(int x, int y);
+
+    /**
+     * Adds a char to the views print buffer.
+     * @param X Position.
+     * @param Y Position.
+     * @param c Char.
+     */
+    void add_char_print_buffer(int x, int y, char c);
+
 protected:
     struct row {
         std::string *text = nullptr; /**< Real text */
@@ -93,14 +111,6 @@ protected:
      * Clears all values.
      */
     void reset_print_buffer();
-
-    /**
-     * Adds a char to the views print buffer.
-     * @param X Position.
-     * @param Y Position.
-     * @param c Char.
-     */
-    void add_char_print_buffer(int x, int y, char c);
 };
 
 #endif
