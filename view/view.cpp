@@ -1,8 +1,10 @@
 #include "include/view.h"
 
 view::view() {
-    std::shared_ptr<screen> s(std::make_shared<screen>());
-    std::shared_ptr<screen::window> w(std::make_shared<screen::window>());
+    auto s = std::make_shared<screen>();
+    auto w = std::make_shared<screen::window>();
+    //std::shared_ptr<screen> s(std::make_shared<screen>());
+    //std::shared_ptr<screen::window> w(std::make_shared<screen::window>());
     scr = s;
     win = w;
 }

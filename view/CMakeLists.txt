@@ -8,4 +8,6 @@ add_library(libview STATIC
   ${libview_SRCS}
   )
 
+target_link_libraries(libview libscreen)
+
 add_subdirectory(unit-tests)
