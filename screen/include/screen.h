@@ -98,6 +98,9 @@ public:
      */
     void exit();
 
+    /*
+     * TODO: Make this a real useful function.
+     */
     void draw_border(std::shared_ptr<window> w, int chtx, int chty);
 };
 #endif
