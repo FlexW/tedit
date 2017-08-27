@@ -5,6 +5,9 @@
 
 class view {
 public:
+    view();
+    ~view();
+
     /**
      * Sets the margin of the view on top side.
      */
@@ -173,6 +176,14 @@ public:
         return starty;
     }
 
+    void set_screen(std::shared_ptr<screen> scr) {
+        this->scr = scr;
+    }
+
+    void set_window(std::shared_ptr<screen::window> win) {
+        this->win = win;
+    }
+
 private:
     int margin_top = 0;
     int margin_bot = 0;
@@ -189,6 +200,12 @@ private:
 
     int startx = 0;
     int starty = 0;
+
+    /** Screen in which the view gets displayed. */
+    std::shared_ptr<screen> scr;
+
+    /** Window in which the view will be displayed. */
+    std::shared_ptr<screen::window> win;
 };
 
 #endif

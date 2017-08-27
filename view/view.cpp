@@ -1,5 +1,15 @@
 #include "include/view.h"
 
+view::view() {
+    std::shared_ptr<screen> s(std::make_shared<screen>());
+    std::shared_ptr<screen::window> w(std::make_shared<screen::window>());
+    scr = s;
+    win = w;
+}
+
+view::~view() {
+}
+
 void view::set_padding_top(int p) {
     if ((height - padding_bot) >= p)
         padding_top = p;
