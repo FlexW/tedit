@@ -65,6 +65,10 @@ void view::set_starty(int y) {
 void view::draw() {
     int wm = width + margin_left + margin_right;
     int hm = height + margin_top + margin_bot;
+
     //scr->set_size(win, wm, hm);
     //scr->set_pos(startx, starty);
+
+    if(print_buffer_hook())
+        ;//scr->draw(win);
 }

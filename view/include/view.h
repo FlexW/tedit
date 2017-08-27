@@ -155,6 +155,13 @@ protected:
 
     /** Window in which the view will be displayed. */
     std::shared_ptr<screen::window> win;
+
+    /**
+       Hook that gets called before drawing the view.
+       Overwrite this method to hook before drawing.
+       @returns True on success. False on failure. If false, view get's not drawd.
+    */
+    virtual bool print_buffer_hook() { return true; }
 };
 
 #endif
