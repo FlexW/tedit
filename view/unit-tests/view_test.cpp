@@ -56,3 +56,27 @@ TEST_F(ViewTest, SetPaddingLegal) {
     ASSERT_EQ(p, v->get_padding_left());
     ASSERT_EQ(p, v->get_padding_right());
 }
+
+TEST_F(ViewTest, SetStartxLegal) {
+    int legal = 10;
+    v->set_startx(legal);
+    ASSERT_EQ(legal, v->get_startx());
+}
+
+TEST_F(ViewTest, SetStartyLegal) {
+    int legal = 10;
+    v->set_starty(legal);
+    ASSERT_EQ(legal, v->get_starty());
+}
+
+TEST_F(ViewTest, SetStartxIllegal) {
+    int illegal = -1;
+    v->set_startx(illegal);
+    ASSERT_EQ(0, v->get_startx());
+}
+
+TEST_F(ViewTest, SetStartyIllegal) {
+    int illegal = -1;
+    v->set_starty(illegal);
+    ASSERT_EQ(0, v->get_starty());
+}

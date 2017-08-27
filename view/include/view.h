@@ -1,6 +1,8 @@
 #ifndef VIEW_H_
 #define VIEW_H_
 
+#include "screen/include/screen.h"
+
 class view {
 public:
     /**
@@ -143,7 +145,35 @@ public:
         return width;
     }
 
-protected:
+    /**
+     * Start of view x position in parent screen.
+     * @param x Start x position.
+     */
+    void set_startx(int x);
+
+    /**
+     * Start of view y position in parent screen.
+     * @param x Start y position.
+     */
+    void set_starty(int y);
+
+    /**
+     * Gets the view start x position.
+     * @returns View startx position.
+     */
+    int get_startx() {
+        return startx;
+    }
+
+    /**
+     * Gets the view start y position.
+     * @returns View starty position.
+     */
+    int get_starty() {
+        return starty;
+    }
+
+private:
     int margin_top = 0;
     int margin_bot = 0;
     int margin_left = 0;
@@ -156,6 +186,9 @@ protected:
 
     int height = 0;
     int width = 0;
+
+    int startx = 0;
+    int starty = 0;
 };
 
 #endif

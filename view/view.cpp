@@ -27,3 +27,13 @@ void view::set_height(int h) {
 void view::set_width(int w) {
     width = w;
 }
+
+void view::set_startx(int x) {
+    if (x >= 0)
+        startx = x;
+}
+
+void view::set_starty(int y) {
+    if (y >= 0)
+        starty = y;
+}
