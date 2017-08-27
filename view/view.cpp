@@ -1,5 +1,3 @@
-#include <cstdlib>
-
 #include "include/view.h"
 
 view::view() {
@@ -40,34 +38,6 @@ void view::set_margin_right(int m) {
     }
 }
 
-void view::set_padding_top(int p) {
-    if ((height - padding_bot) >= p) {
-        padding_top = p;
-        draw();
-    }
-}
-
-void view::set_padding_bot(int p) {
-    if ((height - padding_top) >= p) {
-        padding_bot = p;
-        draw();
-    }
-}
-
-void view::set_padding_left(int p) {
-    if ((width - padding_right) >= p) {
-        padding_left = p;
-        draw();
-    }
-}
-
-void view::set_padding_right(int p) {
-    if ((width - padding_left) >= p) {
-        padding_right = p;
-        draw();
-    }
-}
-
 void view::set_height(int h) {
     height = h;
     draw();
@@ -95,12 +65,6 @@ void view::set_starty(int y) {
 void view::draw() {
     int wm = width + margin_left + margin_right;
     int hm = height + margin_top + margin_bot;
-    scr->set_size(win, wm, hm);
-    scr->set_pos(startx, starty);
-}
-
-void view::reset_print_buffer() {
-    int ph = height - padding_top - padding_bot;
-    int pw = width - padding_left - padding_right;
-    print_buffer = (char**)malloc(sizeof(char) * (ph * pw));
+    //scr->set_size(win, wm, hm);
+    //scr->set_pos(startx, starty);
 }

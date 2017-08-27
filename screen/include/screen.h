@@ -34,6 +34,7 @@ public:
 
     /**
      * Adds string to print buffer.
+     * @param w Window.
      * @param x X position.
      * @param y Y position.
      * @param s String to add.
@@ -42,7 +43,8 @@ public:
 
     /**
      * Draws the current print buffer to screen.
+     * @param w Window.
      */
-    void draw();
+    void draw(std::shared_ptr<window> w);
 };
 #endif

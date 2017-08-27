@@ -32,26 +32,6 @@ public:
     void set_margin_right(int m);
 
     /**
-     * Sets the padding of the view on top side.
-     */
-    void set_padding_top(int p);
-
-    /**
-     * Sets the padding of the view on bottom side.
-     */
-    void set_padding_bot(int p);
-
-    /**
-     * Sets the padding of the view on left side.
-     */
-    void set_padding_left(int p);
-
-    /**
-     * Sets the padding of the view on right side.
-     */
-    void set_padding_right(int p);
-
-    /**
      * Returns the margin on top side.
      * @returns Margin top.
      */
@@ -81,38 +61,6 @@ public:
      */
     int get_margin_right() {
         return margin_right;
-    }
-
-    /**
-     * Returns the padding on top side.
-     * @returns Padding top.
-     */
-    int get_padding_top() {
-        return padding_top;
-    }
-
-    /**
-     * Returns the padding on bottom side.
-     * @returns Padding bottom.
-     */
-    int get_padding_bot() {
-        return padding_bot;
-    }
-
-    /**
-     * Returns the padding on left side.
-     * @returns Padding left.
-     */
-    int get_padding_left() {
-        return padding_left;
-    }
-
-    /**
-     * Returns the padding on right side.
-     * @returns Padding right.
-     */
-    int get_padding_right() {
-        return padding_right;
     }
 
     /**
@@ -190,19 +138,14 @@ public:
      */
     void draw();
 
-private:
+protected:
     int margin_top = 0;
     int margin_bot = 0;
     int margin_left = 0;
     int margin_right = 0;
 
-    int padding_top = 0;
-    int padding_bot = 0;
-    int padding_left = 0;
-    int padding_right = 0;
-
-    int height = 0;
-    int width = 0;
+    int height = 1;
+    int width = 1;
 
     int startx = 0;
     int starty = 0;
@@ -212,15 +155,6 @@ private:
 
     /** Window in which the view will be displayed. */
     std::shared_ptr<screen::window> win;
-
-    /** Representation of the view in memory. */
-    char **print_buffer;
-
-    /**
-     * Corrects the height and width of the print buffer.
-     * Clears all values.
-     */
-    void reset_print_buffer();
 };
 
 #endif
