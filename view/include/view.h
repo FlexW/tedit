@@ -1,44 +1,35 @@
 #ifndef VIEW_H_
 #define VIEW_H_
 
+#include <vector>
+
 #include "screen/include/screen.h"
 
 class view {
 public:
+
     view();
     ~view();
 
     /**
      * Sets the margin of the view on top side.
      */
-    void set_margin_top(int m) {
-        if (m >= 0)
-            margin_top = m;
-    }
+    void set_margin_top(int m);
 
     /**
      * Sets the margin of the view on bottom side.
      */
-    void set_margin_bot(int m) {
-        if (m >= 0)
-            margin_bot = m;
-    }
+    void set_margin_bot(int m);
 
     /**
      * Sets the margin of the view on left side.
      */
-    void set_margin_left(int m) {
-        if (m >= 0)
-            margin_left = m;
-    }
+    void set_margin_left(int m);
 
     /**
      * Sets the margin of the view on right side.
      */
-    void set_margin_right(int m) {
-        if (m >= 0)
-            margin_right = m;
-    }
+    void set_margin_right(int m);
 
     /**
      * Sets the padding of the view on top side.
@@ -176,13 +167,28 @@ public:
         return starty;
     }
 
+    /**
+     * Sets the screen in which the view is drawn.
+     * @param scr Screen.
+     */
     void set_screen(std::shared_ptr<screen> scr) {
         this->scr = scr;
+        draw();
     }
 
+    /**
+     * Sets the window in which the view is drawn.
+     * @param win Window.
+     */
     void set_window(std::shared_ptr<screen::window> win) {
         this->win = win;
+        draw();
     }
+
+    /**
+     * Draws the view on screen.
+     */
+    void draw();
 
 private:
     int margin_top = 0;
@@ -206,6 +212,15 @@ private:
 
     /** Window in which the view will be displayed. */
     std::shared_ptr<screen::window> win;
+
+    /** Representation of the view in memory. */
+    char **print_buffer;
+
+    /**
+     * Corrects the height and width of the print buffer.
+     * Clears all values.
+     */
+    void reset_print_buffer();
 };
 
 #endif
