@@ -38,25 +38,6 @@ TEST_F(ViewTest, SetMarginIllegal) {
     ASSERT_EQ(0, v->get_margin_right());
 }
 
-TEST_F(ViewTest, SetPaddingLegal) {
-    int h = 100;
-    int w = 100;
-    int p = 50;
-
-    v->set_height(h);
-    v->set_width(w);
-
-    v->set_padding_top(p);
-    v->set_padding_bot(p);
-    v->set_padding_left(p);
-    v->set_padding_right(p);
-
-    ASSERT_EQ(p, v->get_padding_top());
-    ASSERT_EQ(p, v->get_padding_bot());
-    ASSERT_EQ(p, v->get_padding_left());
-    ASSERT_EQ(p, v->get_padding_right());
-}
-
 TEST_F(ViewTest, SetStartxLegal) {
     int legal = 10;
     v->set_startx(legal);
