@@ -69,6 +69,6 @@ void view::draw() {
     //scr->set_size(win, wm, hm);
     //scr->set_pos(startx, starty);
 
-    if(print_buffer_hook())
+    if(draw_hook())
         ;//scr->draw(win);
 }

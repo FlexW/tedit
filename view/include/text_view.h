@@ -111,6 +111,12 @@ protected:
      * Clears all values.
      */
     void reset_print_buffer();
+
+    /**
+     * @see view::draw_hook()
+     * Adds the print buffer to draw buffer.
+     */
+    virtual bool draw_hook();
 };
 
 #endif

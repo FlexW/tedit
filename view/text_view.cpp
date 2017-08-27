@@ -66,3 +66,6 @@ char text_view::get_char_print_buffer(int x, int y) {
     int pos = y * width + x;
     return *(print_buffer + pos);
 }
+
+bool text_view::draw_hook() {
+}

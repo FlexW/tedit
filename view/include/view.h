@@ -161,7 +161,7 @@ protected:
        Overwrite this method to hook before drawing.
        @returns True on success. False on failure. If false, view get's not drawd.
     */
-    virtual bool print_buffer_hook() { return true; }
+    virtual bool draw_hook() { return true; }
 };
 
 #endif
