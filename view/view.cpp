@@ -4,20 +4,19 @@
 #include "include/view.h"
 
 view::view() {
-    auto s = std::make_shared<screen>();
-    auto w = std::make_shared<screen::window>();
-    //std::shared_ptr<screen> s(std::make_shared<screen>());
-    //std::shared_ptr<screen::window> w(std::make_shared<screen::window>());
-    scr = s;
-    win = w;
+    scr = std::make_shared<screen>();
+    win = std::make_shared<screen::window>();
+    reset_print_buffer();
 }
 
 view::~view() {
+    free(print_buffer);
 }
 
 void view::set_padding_top(int p) {
     if ((height - padding_bot) >= p) {
         padding_top = p;
+        reset_print_buffer();
         draw();
     }
 }
@@ -25,6 +24,7 @@ void view::set_padding_top(int p) {
 void view::set_padding_bot(int p) {
     if ((height - padding_top) >= p) {
         padding_bot = p;
+        reset_print_buffer();
         draw();
     }
 }
@@ -32,6 +32,7 @@ void view::set_padding_bot(int p) {
 void view::set_padding_left(int p) {
     if ((width - padding_right) >= p) {
         padding_left = p;
+        reset_print_buffer();
         draw();
     }
 }
@@ -39,6 +40,7 @@ void view::set_padding_left(int p) {
 void view::set_padding_right(int p) {
     if ((width - padding_left) >= p) {
         padding_right = p;
+        reset_print_buffer();
         draw();
     }
 }
@@ -73,11 +75,13 @@ void view::set_margin_right(int m) {
 
 void view::set_height(int h) {
     height = h;
+    reset_print_buffer();
     draw();
 }
 
 void view::set_width(int w) {
     width = w;
+    reset_print_buffer();
     draw();
 }
 
