@@ -116,3 +116,24 @@ TEST_F(ViewTest, GetPrintBufferChar) {
     v->add_char_print_buffer(x, y, c);
     ASSERT_EQ(c, v->get_char_print_buffer(x, y));
 }
+
+TEST_F(ViewTest, SetPaddingCheckPrintBufferResize) {
+    int size = 10;
+
+    v->set_height(size);
+    v->set_width(size);
+
+    ASSERT_EQ((size * size), v->get_print_buffer_size());
+
+    v->set_padding_top(1);
+    ASSERT_EQ(size * (size - 1), v->get_print_buffer_size());
+
+    v->set_padding_bot(1);
+    ASSERT_EQ(size * (size - 2), v->get_print_buffer_size());
+
+    v->set_padding_left(1);
+    ASSERT_EQ((size - 1) * (size - 2), v->get_print_buffer_size());
+
+    v->set_padding_right(1);
+    ASSERT_EQ((size - 2) * (size - 2), v->get_print_buffer_size());
+}
