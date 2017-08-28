@@ -1,3 +1,6 @@
+#include <cstdlib>
+#include <cstring>
+
 #include "include/view.h"
 
 view::view() {
@@ -10,6 +13,34 @@ view::view() {
 }
 
 view::~view() {
+}
+
+void view::set_padding_top(int p) {
+    if ((height - padding_bot) >= p) {
+        padding_top = p;
+        draw();
+    }
+}
+
+void view::set_padding_bot(int p) {
+    if ((height - padding_top) >= p) {
+        padding_bot = p;
+        draw();
+    }
+}
+
+void view::set_padding_left(int p) {
+    if ((width - padding_right) >= p) {
+        padding_left = p;
+        draw();
+    }
+}
+
+void view::set_padding_right(int p) {
+    if ((width - padding_left) >= p) {
+        padding_right = p;
+        draw();
+    }
 }
 
 void view::set_margin_top(int m) {
@@ -71,6 +102,34 @@ void view::draw() {
     //scr->set_size(win, wm, hm);
     //scr->set_pos(startx, starty);
 
-    if(draw_hook())
+    //if(draw_hook())
         ;//scr->draw(win);
+}
+
+void view::reset_print_buffer() {
+    int ph = height - padding_top - padding_bot;
+    int pw = width - padding_left - padding_right;
+    char *tmp_pb = (char*)malloc(sizeof(char) * (ph * pw));
+    if (print_buffer != nullptr) {
+        memcpy(tmp_pb, print_buffer, sizeof(char));
+        free(print_buffer);
+    }
+    print_buffer = tmp_pb;
+}
+
+void view::add_char_print_buffer(int x, int y, char c) {
+    int pos = y * width + x;
+    *(print_buffer + pos) = c;
+}
+
+int view::get_print_buffer_size() {
+    int ph = height - padding_top - padding_bot;
+    int pw = width - padding_left - padding_right;
+
+    return (ph * pw);
+}
+
+char view::get_char_print_buffer(int x, int y) {
+    int pos = y * width + x;
+    return *(print_buffer + pos);
 }
