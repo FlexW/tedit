@@ -40,11 +40,15 @@ void screen::draw() {
 }
 
 void screen::set_size(std::shared_ptr<window> w, int x, int y) {
+    werase(w->win);
     wresize(w->win, y, x);
+    draw(w);
 }
 
 void screen::set_pos(std::shared_ptr<window> w, int startx, int starty) {
+    werase(w->win);
     mvwin(w->win, starty, startx);
+    draw(w);
 }
 
 void screen::init() {
