@@ -5,7 +5,7 @@
 class TextViewTest : public ::testing::Test {
 public:
     TextViewTest() {
-        this->v = new text_view();
+        this->v = new text_view(1, 1, 1, 1);
     }
     ~TextViewTest() {
         delete v;

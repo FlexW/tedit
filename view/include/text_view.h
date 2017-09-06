@@ -13,8 +13,12 @@
  */
 class text_view : public view {
 public:
-    text_view();
-    ~text_view();
+    /**
+     * @see view::view()
+     */
+    text_view(int startx, int starty, int width, int height);
+
+    virtual ~text_view();
 
     class view_changed : public event<int> {
     };
@@ -56,7 +60,26 @@ protected:
      * @param line Text.
      * @returns Row.
      */
-    std::shared_ptr<row> new_row(std::string& line);
+     std::shared_ptr<row> new_row(std::string& line) {
+     }
+
+     /**
+      * Adds a row to the view.
+      * @param y Index of the new row.
+      * @param s Text.
+      */
+     void add_row(int y, const std::string &s);
+
+     /**
+      * Updates the rendered row.
+      * @param r row.
+      */
+     void update_row(std::shared_ptr<row> r);
+
+     /**
+      * Draws the rows to screen.
+      */
+     void draw_rows();
 };
 
 #endif

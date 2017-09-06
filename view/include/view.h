@@ -3,13 +3,23 @@
 
 #include <vector>
 
-#include "screen/include/screen.h"
+//#include "screen/include/screen.h"
+#include "screen/include/ncurses_screen.h"
 
+/**
+ * Represents a view that can be displayed on the screen.
+ */
 class view {
 public:
+    /**
+     * @param startx View left corner x axsis.
+     * @param starty View left corner y axsis.
+     * @param width View percentual width.
+     * @param height View percentual height.
+     */
+    view(int startx, int starty, int width, int height);
 
-    view();
-    ~view();
+    virtual ~view();
 
     /**
      * Sets the padding of the view on top side.
@@ -64,64 +74,12 @@ public:
     }
 
     /**
-     * Sets the margin of the view on top side.
-     */
-    void set_margin_top(int m);
-
-    /**
-     * Sets the margin of the view on bottom side.
-     */
-    void set_margin_bot(int m);
-
-    /**
-     * Sets the margin of the view on left side.
-     */
-    void set_margin_left(int m);
-
-    /**
-     * Sets the margin of the view on right side.
-     */
-    void set_margin_right(int m);
-
-    /**
-     * Returns the margin on top side.
-     * @returns Margin top.
-     */
-    int get_margin_top() {
-        return margin_top;
-    }
-
-    /**
-     * Returns the margin on bottom side.
-     * @returns Margin bottom.
-     */
-    int get_margin_bot() {
-        return margin_bot;
-    }
-
-    /**
-     * Returns the margin on left side.
-     * @returns Margin left.
-     */
-    int get_margin_left() {
-        return margin_left;
-    }
-
-    /**
-     * Returns the margin on right side.
-     * @returns Margin right.
-     */
-    int get_margin_right() {
-        return margin_right;
-    }
-
-    /**
-     * Sets the height of the view.
+     * Sets the percentual height of the view.
      */
     void set_height(int h);
 
     /**
-     * Sets the width of the view.
+     * Sets the percentual width of the view.
      */
     void set_width(int w);
 
@@ -171,8 +129,8 @@ public:
      * Sets the screen in which the view is drawn.
      * @param scr Screen.
      */
-    void set_screen(std::shared_ptr<screen> scr) {
-        this->scr = scr;
+    void set_screen(ncurses_screen &scr) {
+            //this->scr = scr;
         draw();
     }
 
@@ -180,7 +138,7 @@ public:
      * Sets the window in which the view is drawn.
      * @param win Window.
      */
-    void set_window(std::shared_ptr<screen::window> win) {
+    void set_window(std::shared_ptr<ncurses_screen::window> win) {
         this->win = win;
         draw();
     }
@@ -208,16 +166,34 @@ public:
      */
     void add_char_print_buffer(int x, int y, char c);
 
+    std::shared_ptr<std::string> get_name() {
+        return name;
+    }
+
+    void set_name(std::string &name) {
+        std::shared_ptr<std::string> n(&name);
+        this->name = n;
+    }
+
+    /** Delete view. */
+    void delete_view();
+
+    /** Gets called when the window gets resized. */
+    void resize(int i);
+
 protected:
-    int margin_top = 0;
-    int margin_bot = 0;
-    int margin_left = 0;
-    int margin_right = 0;
+    /** Name of the view. */
+    std::shared_ptr<std::string> name;
 
     int padding_top = 0;
     int padding_bot = 0;
     int padding_left = 0;
     int padding_right = 0;
+
+    int rpadding_top = 0;
+    int rpadding_bot = 0;
+    int rpadding_left = 0;
+    int rpadding_right = 0;
 
     /** Representation of the view in memory. */
     char *print_buffer = nullptr;
@@ -225,20 +201,53 @@ protected:
     int height = 1;
     int width = 1;
 
+    /** Real height. */
+    int rheight = 0;
+    /** Real width. */
+    int rwidth = 0;
+
+    /** Percentual left corner x axsis. */
     int startx = 0;
+    /** Percentual left corner x axsis. */
     int starty = 0;
 
+    /** Real left corner x axsis. */
+    int rstartx = 0;
+    /** Real left corner y axsis. */
+    int rstarty = 0;
+
     /** Screen in which the view gets displayed. */
-    std::shared_ptr<screen> scr;
+    //ncurses_screen scr;
 
     /** Window in which the view will be displayed. */
-    std::shared_ptr<screen::window> win;
+    std::shared_ptr<ncurses_screen::window> win;
 
     /**
      * Corrects the height and width of the print buffer.
      * Clears all values.
      */
     void reset_print_buffer();
+
+    /**
+     * Draws the print buffer to screen.
+     */
+    void draw_print_buffer();
+
+    /**
+     * Gets the print buffers height.
+     */
+    int get_print_buffer_height();
+
+    /**
+     * Gets the print buffers width.
+     */
+    int get_print_buffer_width();
+
+    /** Gets the real width. */
+    int get_rwidth();
+
+    /** Gets the real height. */
+    int get_rheight();
 };
 
 #endif

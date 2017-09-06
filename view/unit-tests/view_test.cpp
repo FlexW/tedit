@@ -4,39 +4,13 @@
 class ViewTest : public ::testing::Test {
 public:
     ViewTest() {
-        this->v = new view();
+            this->v = new view(0, 0, 100, 100);
     }
     ~ViewTest() {
         delete v;
     }
     view *v;
 };
-
-TEST_F(ViewTest, SetMarginLegal) {
-    int legal = 10;
-    v->set_margin_top(legal);
-    v->set_margin_bot(legal);
-    v->set_margin_left(legal);
-    v->set_margin_right(legal);
-
-    ASSERT_EQ(legal, v->get_margin_top());
-    ASSERT_EQ(legal, v->get_margin_bot());
-    ASSERT_EQ(legal, v->get_margin_left());
-    ASSERT_EQ(legal, v->get_margin_right());
-}
-
-TEST_F(ViewTest, SetMarginIllegal) {
-    int illegal = -1;
-    v->set_margin_top(illegal);
-    v->set_margin_bot(illegal);
-    v->set_margin_left(illegal);
-    v->set_margin_right(illegal);
-
-    ASSERT_EQ(0, v->get_margin_top());
-    ASSERT_EQ(0, v->get_margin_bot());
-    ASSERT_EQ(0, v->get_margin_left());
-    ASSERT_EQ(0, v->get_margin_right());
-}
 
 TEST_F(ViewTest, SetStartxLegal) {
     int legal = 10;
