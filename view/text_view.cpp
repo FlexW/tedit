@@ -1,5 +1,6 @@
 #include <fstream>
 
+#include "include/log.h"
 #include "include/text_view.h"
 
 text_view::text_view(int startx, int starty, int width, int height) :
@@ -21,6 +22,7 @@ bool text_view::open(std::string& filename) {
     draw_rows();
     file->close();
     free(file);
+    set_print_buffer_reset_handler(&view::on_reset_print_buffer);
     return true;
 }
 
@@ -87,5 +89,11 @@ void text_view::draw_rows() {
             add_char_print_buffer(j, i, rows[i]->rtext->at(j));
         }
     }
+    FILE_LOG(logINFO) << "Draw rows.";
     draw();
+}
+
+void text_view::on_reset_print_buffer() {
+    FILE_LOG(logINFO) << "On reset print buffer called.";
+    draw_rows();
 }

@@ -95,7 +95,13 @@ protected:
      * Executes each event in own thread.
      * @param data Data submitted with event.
      */
-    void dispatch(T data) {
+     void dispatch(T data, bool in_thread=false) {
+        if (!in_thread) {
+            for (auto p : event_vec) {
+                p->second(p->first, data);
+            }
+            return;
+        }
         for (auto p : event_vec) {
             std::thread t(p->second, p->first, data);
             t.detach();

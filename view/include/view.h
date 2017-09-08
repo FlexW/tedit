@@ -23,23 +23,31 @@ public:
 
     /**
      * Sets the padding of the view on top side.
+     * @param p Padding top.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_padding_top(int p);
+    void set_padding_top(int p, bool redraw=true);
 
     /**
      * Sets the padding of the view on bottom side.
+     * @param p Padding bottom.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_padding_bot(int p);
+    void set_padding_bot(int p, bool redraw=true);
 
     /**
      * Sets the padding of the view on left side.
+     * @param p Padding left.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_padding_left(int p);
+    void set_padding_left(int p, bool redraw=true);
 
     /**
      * Sets the padding of the view on right side.
+     * @param p Padding right.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_padding_right(int p);
+    void set_padding_right(int p, bool redraw=true);
 
     /**
      * Returns the padding on top side.
@@ -75,13 +83,17 @@ public:
 
     /**
      * Sets the percentual height of the view.
+     * @param h height.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_height(int h);
+    void set_height(int h, bool redraw=true);
 
     /**
      * Sets the percentual width of the view.
+     * @param w width.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_width(int w);
+    void set_width(int w, bool redraw=true);
 
     /**
      * Returns the actual height of the view.
@@ -100,14 +112,16 @@ public:
     /**
      * Start of view x position in parent screen.
      * @param x Start x position.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_startx(int x);
+    void set_startx(int x, bool redraw=true);
 
     /**
      * Start of view y position in parent screen.
      * @param x Start y position.
+     * @param redraw True if redrawing is wished. False if not.
      */
-    void set_starty(int y);
+    void set_starty(int y, bool redraw=true);
 
     /**
      * Gets the view start x position.
@@ -181,7 +195,18 @@ public:
     /** Gets called when the window gets resized. */
     void resize(int i);
 
+    /**
+     * Overwrite this method to get a handler if print buffer was reset.
+     * Register that handler with reset_print_buffer_handler. For this
+     * use set_print_buffer_reset_handler().
+     */
+    virtual void on_reset_print_buffer() = 0;
+
 protected:
+
+     typedef void (view::*reset_pb)();
+     reset_pb reset_print_buffer_handler = nullptr;
+
     /** Name of the view. */
     std::shared_ptr<std::string> name;
 
@@ -248,6 +273,12 @@ protected:
 
     /** Gets the real height. */
     int get_rheight();
+
+    /**
+     * Set print buffer reset handler.
+     * @param pbh Print buffer reset handler.
+     */
+    void set_print_buffer_reset_handler(reset_pb pbh);
 };
 
 #endif

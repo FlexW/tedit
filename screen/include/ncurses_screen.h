@@ -4,12 +4,11 @@
 #include <atomic>
 #include <cstdlib>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <ncurses.h>
 
 #include "event/include/event.h"
-
-//#include "screen.h"
 
 /**
  * Represents the area in which a view can be drawn.
@@ -29,35 +28,64 @@ public:
 
     class resize_event : public event<int> {
     public:
-
-        /**
-         * This value will be checked by watch_resize().
-         * If true the execution of watch_resize will be stoped.
-         */
-        bool quit = false;
-
         /**
          * Watches if the user resizes the window.
          * Fires event.
          */
         void watch_resize();
 
-        void set_watch_resize_status(bool b);
+        /**
+         * Calls all listeners. This get called from sigwinch_handler().
+         * Do not call this method.
+         */
+        void call_listener();
+
+        /**
+         * Handler function that gets called from the OS.
+         * Do not call this method.
+         * @param signum Signal number
+         */
+        static void sigwinch_handler(int signum);
 
     private:
-        void tresize();
+        /**
+         * Mutex to lock if resizing is performed.
+         */
+        std::mutex resize_mutex;
+
+        /**
+         * If this flag is set and class is currently dispatching resize events,
+         * it will after dispatching, again call all listeners.
+         */
+        std::atomic_flag not_resize_flag = ATOMIC_FLAG_INIT;
     };
     resize_event resize;
 
     /**
      * Gets the maximum units in x direction.
+     * @returns Max X.
      */
     int get_max_x();
 
     /**
      * Gets the maximum units in y direction.
+     * @returns Max Y.
      */
     int get_max_y();
+
+    /**
+     * Gets the maximum units in x direction.
+     * @param w Window.
+     * @returns Max X.
+     */
+    int get_max_x(std::shared_ptr<window> w);
+
+    /**
+     * Gets the maximum units in y direction.
+     * @param w Window.
+     * @returns Max Y.
+     */
+    int get_max_y(std::shared_ptr<window> w);
 
     /**
      * Adds char to print buffer.
@@ -150,6 +178,11 @@ public:
 
 private:
     ncurses_screen();
+
+    /**
+     * Mutex locks the class if someone is performing a I/O operation.
+     */
+    std::mutex screen_mutex;
 
     /** Tracks the number of open views. */
     int num_wins = 0;

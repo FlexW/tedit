@@ -36,6 +36,8 @@ public:
      */
     void set_text(const std::string& text);
 
+    virtual void on_reset_print_buffer();
+
 protected:
     /** Represents one row in the text view. */
     struct row {
@@ -80,6 +82,8 @@ protected:
       * Draws the rows to screen.
       */
      void draw_rows();
+
+     void reset_print_buffer_handler();
 };
 
 #endif
