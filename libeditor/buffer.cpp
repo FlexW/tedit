@@ -165,7 +165,7 @@ void buffer::movcur(int key) {
                         ty--;
                 break;
         case KEY_DOWN:
-                if (ty < rows.size() - 1)
+	        if (ty < rows.size() - 1)
                         ty++;
                 break;
         }
@@ -173,6 +173,8 @@ void buffer::movcur(int key) {
         int rowlen = r ? r->text->length() : 0;
         if (tx > rowlen)
                 tx = rowlen;
+	if (rows.size() == 0)
+	        ty = 0;
 }
 
 std::istream& buffer::get_line(std::istream &is, std::string &t) {
