@@ -217,8 +217,8 @@ void buffer::bufscroll() {
     if (rx < coloff) {
         coloff = rx;
     }
-    if (rx >= coloff + maxcol) {
-        coloff = rx - maxcol + 1;
+    if (rx >= coloff + maxcol - margin_right) {
+        coloff = rx - maxcol + margin_right + 1;
     }
 }
 
