@@ -130,14 +130,14 @@ void buffer::drawrows() {
         int x = 0;
         for (; x < maxcol && x < rowlen; x++) {
             win->addchar(y,
-                         x + margin_right,
+                         x + margin_left,
                          (*rows[filerow]->rtext)[x + coloff]);
         }
     }
 }
 
 void buffer::setcur() {
-        win->setcurpos(ty - rowoff, rx - coloff + margin_right);
+        win->setcurpos(ty - rowoff, rx - coloff + margin_left);
 }
 
 void buffer::movcur(int key) {
@@ -217,8 +217,8 @@ void buffer::bufscroll() {
     if (rx < coloff) {
         coloff = rx;
     }
-    if (rx >= coloff + maxcol - margin_right) {
-        coloff = rx - maxcol + margin_right + 1;
+    if (rx >= coloff + maxcol - margin_left) {
+        coloff = rx - maxcol + margin_left + 1;
     }
 }
 
@@ -429,17 +429,17 @@ std::string * buffer::prompt(const std::string &msg) {
 void buffer::draw_linnum() {
     int maxrow = scrnrows() + rowoff;
     int maxlinum = maxrow + 1;
-    margin_right = 1;
+    margin_left = 1;
     for (int i = 0; maxlinum != 0; i++) {
         maxlinum /= 10;
-        margin_right++;
+        margin_left++;
     }
     attron(COLOR_PAIR(BLACK_WHITE));
     for (int y = 0; y < maxrow - rowoff; y++) {
         int linnum = y + rowoff + 1;
-        for (int x = margin_right - 1; x >= 0; x--) {
+        for (int x = margin_left - 1; x >= 0; x--) {
             int c;
-            if (x == margin_right - 1) {
+            if (x == margin_left - 1) {
                 c = ' ';
             } else if (linnum != 0) {
                 c = (linnum % 10) + 48;

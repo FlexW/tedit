@@ -32,13 +32,13 @@ private:
         std::vector<row*> rows; /**< Holds all rows for the buffer. */
         int ty = 0; /**< Y cursor position in real text file.*/
         int tx = 0; /**< X cursor position in real text file.*/
-        int rx = margin_right; /**< X cursor position in the rendered text. */
+        int rx = margin_left; /**< X cursor position in the rendered text. */
         int rowoff = 0; /**< Tracks the row user is currently scrolled to. */
         int coloff = 0; /**< Tracks the column user is currently scrolled to. */
         view *win = nullptr; /**< The view to display text. */
         editor *ed = nullptr; /**< The buffers editor. */
         int margin_bot = 2;
-        int margin_right = 0;
+        int margin_left = 0;
         std::string statusmsg = "Exit: Ctrl-q | Save: Ctrl-s"; /**< Global status message buffer. */
         bool buffer_changed = false; /**< Indicates if buffer text changed */
         buffer_container *container = nullptr;
