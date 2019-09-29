@@ -10,7 +10,7 @@ sudo apt-get install build-essential
 sudo apt-get install cmake
 sudo apt-get install ncurses-dev
 
-git clone ~/https://github.com/FlexW/tedit.git
+git clone https://github.com/FlexW/tedit.git
 cd ~/tedit
 mkdir build && cd build
 cmake ..
