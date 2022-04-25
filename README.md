@@ -1,7 +1,11 @@
 # Tedit - Terminal Text Editor 
 
-This is a simple terminal text editor, that I have written to get a bit used to C++.
-It displays line numbers and can open multiple files at the same time.
+This is a simple terminal text editor, that I have written from
+scratch to get a bit used to C++.  It displays line numbers and can
+open multiple files at the same time.
+
+## Screenshots
+![Editor](screenshots/tedit.png)
 
 ## Build
 On Ubuntu:
